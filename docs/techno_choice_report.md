@@ -46,9 +46,11 @@ Nous avons chacun des environnements spécifiques tant au niveau OS qu'au niveau
 
 - Anthony Maton
     - Editeur : [neovim](https://neovim.io/) est un éditeur de texte similaire à Vim en termes de fonctionnalités et de fonctionnement. Il s'agit ici d'une version extrêmement personnalisée de neovim qui offre toutes les fonctionnalités nécessaire au confort de travail. 
-
+    - Client REST : Mon editeur intègre un client REST (restclient.el)
+    
 - Philippe Dragomir
     - Editeur : [IntelliJ Idea](https://www.jetbrains.com/idea/) est un IDE génial en termes de fonctionnalités, intégrant énormément de modules et de fonctionnalités permettant de faciliter pour notre développement.
+    - Client REST : TBD
 
 - Xavier Hoffmann & Gabriel Delhaye
     - Editeur : [Sublime Text 3](https://www.sublimetext.com/) est un éditeur cross-plateforme offrant des fonctionnalités intérressante pour du développement de "petits" projet. Il permet une complète customisation des touches, des menus, en passant par des macros et bien d'autres. Son système de plugin permet une customisation encore plus en profondeur.
