@@ -1,0 +1,14 @@
+{
+  "name": "Profile_Ressource",
+  "plural": "Profile_Ressources",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
