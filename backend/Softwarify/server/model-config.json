@@ -14,22 +14,34 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "database"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "database",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "database",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "database",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "database",
     "public": false
+  },
+  "Client": {
+    "dataSource": "database",
+    "public": true
+  },
+  "Profile": {
+    "dataSource": "database",
+    "public": true
+  },
+  "Ressource": {
+    "dataSource": "database",
+    "public": true
   }
 }

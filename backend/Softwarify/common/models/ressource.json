@@ -1,0 +1,27 @@
+{
+  "name": "Ressource",
+  "plural": "Ressources",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "script_template": {
+      "type": "string",
+      "required": true
+    },
+    "export_format": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
