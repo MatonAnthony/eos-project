@@ -9,8 +9,8 @@
   "properties": {
     "identifier": {
       "type": "string",
-      "required": true,
-      "id": true
+      "id": true,
+      "required": true
     },
     "first_name": {
       "type": "string",
@@ -28,7 +28,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "scope": {
+      "include": "profile"
+  },
+  "relations": {
+    "profile": {
+      "type": "belongsTo",
+      "model": "Profile",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
