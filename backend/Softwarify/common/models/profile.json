@@ -1,0 +1,24 @@
+{
+  "name": "Profile",
+  "plural": "Profiles",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "acronyme": {
+      "type": "string",
+      "required": true,
+      "id": true
+    },
+    "full_name": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
