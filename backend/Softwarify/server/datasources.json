@@ -6,8 +6,8 @@
   "database": {
     "host": "localhost",
     "port": 5432,
-    "url": "postgres://postgres:@localhost/LoopBackDB",
-    "database": "LoopBackDB",
+    "url": "postgres://postgres:@localhost/anthony",
+    "database": "anthony",
     "password": "",
     "name": "database",
     "user": "postgres",
