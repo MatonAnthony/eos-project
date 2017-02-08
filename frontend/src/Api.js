@@ -9,7 +9,7 @@ class Api {
      * @return {String} URL to reach the API
      */
     static getUrl() {
-        return 'http://localhost:3000';
+        return 'http://localhost:9999/api';
     }
 
 }
