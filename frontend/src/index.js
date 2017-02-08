@@ -5,9 +5,10 @@ import Login from './Login';
 import Identifier from './Identifier';
 import AddProfile from './AddProfile';
 import EditProfile from './EditProfile';
+import ListClient from './ListClient';
 import './index.css';
 
 ReactDOM.render(
-  <EditProfile />,
+  <ListClient />,
   document.getElementById('root')
 );
