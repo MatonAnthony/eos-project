@@ -11,6 +11,7 @@ describe('Fill the db with tests', function() {
 				  "full_name": "1er informatique"
 			}).expect(200, done);
 	});
+	//Add a second one
 	it('Should return HTTP 200 (POST)', function(done){
 		request.post('/Profiles')
 			.send({
@@ -18,16 +19,8 @@ describe('Fill the db with tests', function() {
 				  "full_name": "2eme dietetique"
 			}).expect(200, done);
 	});
-/*
-	it('Should return HTTP 200 (POST)', function(done){
-		request.post('/Ressources')
-			.send({
-				"name": "WINDOWS",
-				  "script_template": "dsadd \"nomEtudiant\" ; etc",
-				  "export_format": ".bat"
-			}).expect(200, done);
-	});
-*/
+
+	//Create one client (a true one)
 	it('Should return HTTP 200 (POST)', function(done){
 		request.post('/Clients')
 			.send({
@@ -41,6 +34,7 @@ describe('Fill the db with tests', function() {
 			}).expect(200, done);
 	});
 
+	//Create a second Client
 	it('Should return HTTP 200 (POST)', function(done){
 		request.post('/Clients')
 			.send({
@@ -54,7 +48,7 @@ describe('Fill the db with tests', function() {
 			}).expect(200, done);
 	});
 
-
+	//Add a ressource on a existing profiles
 	it('Should return HTTP 200 (POST)', function(done){
 		request.post('/Profiles/1BIN/ressources')
 			.send({
@@ -63,7 +57,7 @@ describe('Fill the db with tests', function() {
 				  "export_format": ".bat"
 			}).expect(200, done);
 	});
-
+	// Same as above
 	it('Should return HTTP 200 (POST)', function(done){
 		request.post('/Profiles/2DIET/ressources')
 			.send({
@@ -72,4 +66,34 @@ describe('Fill the db with tests', function() {
 				  "export_format": ".pl"
 			}).expect(200, done);
 	});
+
+
+	/*******
+	 Those next tests, create a ressource, then a profile and link them on profileressource
+	 ******/
+	it('Should return HTTP 200 (PUT)', function(done){
+		request.put('/Ressources')
+			.send({
+				"name": "UBUNTU",
+				  "script_template": "dsadd \"nomEtudiant\" ; etc",
+				  "export_format": ".bash"
+			}).expect(200, done);
+	});
+
+	it('Should return HTTP 200 (POST)', function(done){
+		request.post('/Profiles')
+			.send({
+				  "acronyme": "3BIN",
+				  "full_name": "3eme Informatique"
+			}).expect(200, done);
+	});
+
+	//Here, the id '666' is a fack because we can't force an id on a post/put /Ressources
+	it('Should return HTTP 200 (PUT)', function(done){
+		request.put('/Profiles/3BIN/ressources/rel/666')
+			.send({
+			}).expect(200, done);
+	});
+
+
 });
