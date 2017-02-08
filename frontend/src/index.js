@@ -7,6 +7,7 @@ import Identifier from './Identifier';
 import AddProfile from './AddProfile';
 import EditProfile from './EditProfile';
 import ListClient from './ListClient';
+import ListProfile from './ListProfile';
 import './index.css';
 
 ReactDOM.render((
@@ -16,6 +17,7 @@ ReactDOM.render((
         <Route path="profile/:profileId" component={EditProfile} />
         <Route path="profile/add" component={AddProfile} />
         <Route path="admin" component={Login} />
+        <Route path="profile" component={ListProfile} />
     </Router>),
   document.getElementById('root')
 );
