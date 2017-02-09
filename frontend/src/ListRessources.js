@@ -88,7 +88,7 @@ const ListRessources = React.createClass({
             fixed={true}
             cell={props => (<Cell {...props}>
                    <LinkContainer
-                            to={{pathname: 'secure/edit/client/'
+                            to={{pathname: 'secure/edit/ressources/'
                                  + this.state.ressources[props.rowIndex].id}}>
                             <Button bsStyle="link">
                             <i className="fa fa-pencil" aria-hidden="true"></i>
