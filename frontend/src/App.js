@@ -53,7 +53,6 @@ const App = React.createClass({
                 <Route path="client/:clientId" component={ViewClient} onEnter={this.requireAuth}/>
               </Route>
               <Route path="client/:clientId" component={ViewClient} />
-              <Route path="pdf/:clientId"
             </Router>
 
         );
