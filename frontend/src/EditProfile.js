@@ -29,14 +29,19 @@ const EditProfile = React.createClass({
 
         fetch(URL + '/Ressources', options).then((response) => {
             return response.json().then((json) => {
+                let ressources = this.state.ressources;
                 json.forEach((element) => {
-                    this.state.ressources.push(
+                    ressources.push(
                         {
                             value: element.id,
                             label: element.name + ' --- ' + element.export_format,
                         }
                     );
                 });
+
+                this.setState({
+                    ressources: ressources
+                })
 
                 fetch(URL + '/Profiles/' + this.props.params.profileId, options)
                     .then((response) => {
@@ -55,6 +60,53 @@ const EditProfile = React.createClass({
             });
         });
     },
+
+    submitForm(){
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = {
+            method: 'PUT',
+            mode: 'cors',
+            body: JSON.stringify({
+                'acronyme': this.state.acronym,
+                'full_name': this.state.fullname
+            }),
+            headers: headers
+        };
+        fetch(URL + '/Profiles/' + this.state.acronym, options)
+            .then((response) => {
+                if(response.ok) {
+                    let options = {
+                        method: 'DELETE',
+                        mode: 'cors',
+                    };
+                    fetch(URL + '/Profiles/' + this.state.acronym + '/ressources', options)
+                        .then((response) => {
+                            if(response.ok) {
+                                this.state.selected.forEach((element) => {
+                                    let options = {
+                                        method: 'PUT',
+                                        mode: 'cors',
+                                        headers: headers
+                                    };
+                                    fetch(URL + '/Profiles/'
+                                          + this.state.acronym
+                                          + '/ressources/rel/'
+                                          + element.value
+                                          , options).then((response) => {
+                                             if(response.ok) {
+                                                 /* TODO : Retour UI */
+                                             }
+                                         })
+                                });
+                            } else {
+                            }
+                        });
+                }
+            });
+    },
+
     handleSelectionChange(selectedRessources) {
         let values = selectedRessources.map(element => element.value);
         console.log(values);
@@ -73,46 +125,46 @@ const EditProfile = React.createClass({
 
     render() {
         return (
- <div className="container">
-                  <h1 className="title">Editer un profil</h1>
-                  <form>
-                    <FormGroup>
-                      <ControlLabel>Acronyme :</ControlLabel>
-                      <FormControl
-                        type="text"
-                        value={this.state.acronym}
-                        onChange={this.handleAcronymChange}
-                        />
+            <div className="container">
+              <h1 className="title">Editer un profil</h1>
+              <form>
+                <FormGroup>
+                  <ControlLabel>Acronyme :</ControlLabel>
+                  <FormControl
+                    type="text"
+                    value={this.state.acronym}
+                    onChange={this.handleAcronymChange}
+                    />
 
-                      <ControlLabel>Nom : </ControlLabel>
-                      <FormControl
-                        type="text"
-                        value={this.state.fullname}
-                        onChange={this.handleNameChange}
-                        />
-                    </FormGroup>
+                  <ControlLabel>Nom : </ControlLabel>
+                  <FormControl
+                    type="text"
+                    value={this.state.fullname}
+                    onChange={this.handleNameChange}
+                    />
+                </FormGroup>
 
-                    <h2>Modifier les ressources de ce profil :</h2>
+                <h2>Modifier les ressources de ce profil :</h2>
 
-                      <Select
-                        name="selectors"
-                        multi
-                        value={this.state.selected}
-                        placeholder="Choissisez vos ressources"
-                        options={this.state.ressources}
-                        onChange={this.handleSelectionChange}
+                <Select
+                  name="selectors"
+                  multi
+                  value={this.state.selected}
+                  placeholder="Choissisez vos ressources"
+                  options={this.state.ressources}
+                  onChange={this.handleSelectionChange}
 
-                        />
+                  />
 
-                      <br/>
+                <br/>
 
-                    <Button
-                      type="button"
-                      bsStyle="success"
-                      onClick={this.submitForm}
-                      >Modifier</Button>
-                  </form>
-                </div>
+                <Button
+                  type="button"
+                  bsStyle="success"
+                  onClick={this.submitForm}
+                  >Modifier</Button>
+              </form>
+            </div>
 
         );
     }
