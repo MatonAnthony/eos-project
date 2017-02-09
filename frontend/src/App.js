@@ -46,13 +46,14 @@ const App = React.createClass({
               {/* <Route path="/menubar" component={Menubar} /> */}
               <Route path="/secure" component={Menubar}>
                 <Route path="client" component={ListClient} onEnter={this.requireAuth}/>
-                <Route path="profile/:profileId" component={EditProfile} onEnter={this.requireAuth}/>
                 <Route path="profile/add" component={AddProfile} onEnter={this.requireAuth}/>
+                <Route path="profile/:profileId" component={EditProfile} onEnter={this.requireAuth}/>
                 <Route path="admin" component={Login} />
                 <Route path="profile" component={ListProfile} onEnter={this.requireAuth}/>
                 <Route path="client/:clientId" component={ViewClient} onEnter={this.requireAuth}/>
               </Route>
               <Route path="client/:clientId" component={ViewClient} />
+              <Route path="pdf/:clientId"
             </Router>
 
         );

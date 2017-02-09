@@ -1,6 +1,8 @@
 import React from 'react';
 import Api from './Api';
 import {Table, Column, Cell} from 'fixed-data-table';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
 const URL = Api.getUrl();
@@ -91,8 +93,23 @@ const ListClient = React.createClass({
                   {this.state.clients[props.rowIndex].password}
                 </Cell>
             )}
-            width={250} />
-
+            width={150} />
+                <Column
+            header={<Cell>Options</Cell>}
+            fixed={true}
+            cell={props => (<Cell {...props}>
+                  <LinkContainer
+                  to={{pathname: '/client/' + this.state.clients[props.rowIndex].identifier }}>
+                  <Button bsStyle="link"><i className="fa fa-eye" aria-hidden="true"></i></Button>
+                  </LinkContainer>
+                   <Button bsStyle="link">
+                            <a href={URL + '/pdf/' + this.state.clients[props.rowIndex].identifier}>
+                            <i className="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                   </Button>
+                  </Cell>
+            )}
+            width={100} />
             </Table>
         );
     }

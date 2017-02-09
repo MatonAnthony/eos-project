@@ -35,7 +35,10 @@ const Menubar = React.createClass({
             </LinkContainer>
               <LinkContainer to={{pathname: '/secure/ressource'}}>
              <NavItem>Ressources</NavItem>
-            </LinkContainer>
+              </LinkContainer>
+              <LinkContainer to={{pathname: '/secure/profile/add'}}>
+                <NavItem>Ajouter un utilisateur</NavItem>
+              </LinkContainer>
                 </Nav>
             <Nav pullRight>
               <NavItem onClick={this.disconnect}>Déconnexion</NavItem>
