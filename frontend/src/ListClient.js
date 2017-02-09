@@ -42,7 +42,7 @@ const ListClient = React.createClass({
               rowsCount={this.state.clients.length}
               rowHeight={50}
               headerHeight={50}
-              width={1000}
+              width={1100}
               height={500}
               {...this.props}
               >
@@ -105,11 +105,18 @@ const ListClient = React.createClass({
                    <Button bsStyle="link">
                             <a href={URL + '/pdf/' + this.state.clients[props.rowIndex].identifier}>
                             <i className="fa fa-print" aria-hidden="true"></i>
-                    </a>
+                            </a>
                    </Button>
+                   <LinkContainer
+                            to={{pathname: 'secure/edit/client/'
+                                 + this.state.clients[props.rowIndex].identifier}}>
+                            <Button bsStyle="link">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                            </Button>
+                   </LinkContainer>
                   </Cell>
             )}
-            width={100} />
+            width={200} />
             </Table>
         );
     }

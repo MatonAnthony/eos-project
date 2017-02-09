@@ -1,6 +1,8 @@
 import React from 'react';
 import Api from './Api';
 import {Table, Column, Cell} from 'fixed-data-table';
+import { Button } from 'react-bootstrap';
+import { LinkContainer} from 'react-router-bootstrap';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
 const URL = Api.getUrl();
@@ -37,7 +39,7 @@ const ListProfile = React.createClass({
               rowsCount={this.state.profiles.length}
               rowHeight={50}
               headerHeight={50}
-              width={300}
+              width={400}
               height={750}
               {...this.props}
               >
@@ -59,6 +61,24 @@ const ListProfile = React.createClass({
                   {this.state.profiles[props.rowIndex].full_name}
                 </Cell>
             )} />
+                 <Column
+            header={<Cell>Options</Cell>}
+            fixed={true}
+            cell={props => (<Cell {...props}>
+                  <LinkContainer
+                  to={{pathname: '/secure/profile/' + this.state.profiles[props.rowIndex].acronyme }}>
+                  <Button bsStyle="link"><i className="fa fa-eye" aria-hidden="true"></i></Button>
+                  </LinkContainer>
+                   <LinkContainer
+                            to={{pathname: 'secure/profile/'
+                                 + this.state.profiles[props.rowIndex].acronyme}}>
+                            <Button bsStyle="link">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                            </Button>
+                   </LinkContainer>
+                  </Cell>
+            )}
+            width={100} />
             </Table>
         )
     }
