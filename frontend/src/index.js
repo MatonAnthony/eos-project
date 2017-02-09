@@ -13,15 +13,7 @@ import Menubar from './Menubar';
 import './index.css';
 
 ReactDOM.render((
-    <Router history={browserHistory}>
-      <Route path="/menubar" component={Menubar} />
-      <Route path="/" component={Identifier} />
-        <Route path="client" component={ListClient} />
-        <Route path="profile/:profileId" component={EditProfile} />
-        <Route path="profile/add" component={AddProfile} />
-        <Route path="admin" component={Login} />
-        <Route path="profile" component={ListProfile} />
-        <Route path="client/:clientId" component={ViewClient} />
-    </Router>),
+    <App />
+  ),
   document.getElementById('root')
 );

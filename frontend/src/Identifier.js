@@ -1,6 +1,7 @@
 import React from 'react';
 import {Panel, FormGroup, ControlLabel} from 'react-bootstrap';
 import {FormControl, Button} from 'react-bootstrap';
+import {withRouter} from 'react-router';
 import './Identifier.css';
 import Api from './Api';
 
@@ -28,7 +29,29 @@ const Identifier = React.createClass({
     },
 
     submitForm() {
-        return true;
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = {
+            method: 'GET',
+            mode: 'cors',
+            headers: headers
+        };
+
+        fetch(URL + '/Clients/' + this.state.identifier + '/exists',
+              options).then((response) => {
+                  return response.json().then((json) => {
+                      if(json.exists) {
+                          Api.identifyStudent(this.state.identifier);
+                          this.props.router.push({
+                              pathname: 'client/' + this.state.identifier
+                          });
+                      }else{
+                          /* TODO: Put an error mechanism */
+                      }
+                  })
+         });
+
     },
 
     render() {
@@ -66,4 +89,4 @@ const Identifier = React.createClass({
     },
 })
 
-export default Identifier;
+export default withRouter(Identifier);

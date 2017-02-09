@@ -9,7 +9,7 @@ const ListClient = React.createClass({
     getInitialState(){
         return {
             clients: []
-        }
+        };
     },
 
     componentDidMount(){
@@ -23,20 +23,13 @@ const ListClient = React.createClass({
             return response.json().then((json) => {
                 let clients = [];
                 json.forEach((element) => {
-                    clients.push({
-                        identifier: element.identifier,
-                        first_name: element.first_name,
-                        last_name: element.last_name,
-                        email: element.email,
-                        password: element.password,
-                    });
+                    clients.push(element);
                 });
 
                 this.setState({
                     clients: clients
                 });
 
-                console.log(clients);
             });
         });
     },
