@@ -35,6 +35,7 @@ const ListProfile = React.createClass({
 
     render(){
         return(
+            <div className="container">
             <Table
               rowsCount={this.state.profiles.length}
               rowHeight={50}
@@ -79,7 +80,8 @@ const ListProfile = React.createClass({
                   </Cell>
             )}
             width={100} />
-            </Table>
+                </Table>
+                </div>
         )
     }
 })
