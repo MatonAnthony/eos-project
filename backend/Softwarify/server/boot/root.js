@@ -13,7 +13,7 @@ module.exports = function(server) {
   //GET with param identifier
   //USE /pdf/{identifier}
   //If identifier is false, then HTTP-code 403
-  router.get('/pdf/:identifier', function(req, res) {
+  router.get('/api/pdf/:identifier', function(req, res) {
     let identifier = req.params.identifier;
     res.setHeader('Content-Type', 'application/pdf');
 
@@ -51,7 +51,7 @@ module.exports = function(server) {
 
   //GET with param id
   //USE /script/{id}
-  router.get('/script/:id', function(req, res) {
+  router.get('/api/script/:id', function(req, res) {
 
     //Works with the ressource
     server.models.Ressource.findById(req.params.id, function(err, ressource) {
@@ -128,7 +128,7 @@ module.exports = function(server) {
   });
 
   //POST request on /import with the csv as blob-stream
-  router.post('/import', function(req, res) {
+  router.post('/api/import', function(req, res) {
     let contype = req.headers['content-type'];
     if (!contype || contype.indexOf('text/csv') !== 0)
       return res.sendStatus(400);
