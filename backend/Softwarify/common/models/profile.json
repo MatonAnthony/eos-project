@@ -1,0 +1,33 @@
+{
+  "name": "Profile",
+  "plural": "Profiles",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "acronyme": {
+      "type": "string",
+      "id": true,
+      "required": true
+    },
+    "full_name": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "scope": {
+      "include": "ressources"
+  },
+  "relations": {
+    "ressources": {
+      "type": "hasAndBelongsToMany",
+      "model": "Ressource",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
