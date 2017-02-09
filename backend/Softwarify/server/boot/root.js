@@ -1,17 +1,20 @@
 'use strict';
-
 module.exports = function(server) {
+  const fs = require("fs");
+  const path = require("path");
+  const tmp = require('tmp');
+  const PDFDocument = require('pdfkit');
 	// Install a `/` route that returns server status
-	var router = server.loopback.Router();
+	let router = server.loopback.Router();
 	router.get('/', server.loopback.status());
 
 	//GET with param identifier
 	//USE /pdf/{identifier}
 	//If identifier is false, then HTTP-code 403
 	router.get('/pdf/:identifier', function(req, res) {
-		var identifier = req.params.identifier;
+		let identifier = req.params.identifier;
 		res.setHeader('Content-Type', 'application/pdf');
-		
+
 		server.models.Client.findById(identifier, function(err, client) {
 			if (client == null) {
 				res.status(403);
@@ -20,8 +23,7 @@ module.exports = function(server) {
 				server.models.Profile.findById(client.profileId, {
 					include: 'ressources'
 				}, function(err, profile) {
-					var PDFDocument = require('pdfkit');
-					var doc = new PDFDocument({
+					let doc = new PDFDocument({
 						size: 'LEGAL',
 						info: {
 							Title: 'Feuille de login',
@@ -30,11 +32,11 @@ module.exports = function(server) {
 					});
 					doc.fontSize(25).text('Feuille de login', 100, 80);
 					doc.fontSize(10).text('Matricule de l\'étudiant : ' + client.identifier);
-					doc.fontSize(10).text('Votre mot de pass est : ' + client.password);
+					doc.fontSize(10).text('Votre mot de passe est : ' + client.password);
 					doc.fontSize(10).text('Vous avez acces aux ressources suivantes: ');
 					profile = profile.toJSON();
-					for (var i in profile.ressources) {
-						var name = profile.ressources[i].name;
+					for (let i in profile.ressources) {
+						let name = profile.ressources[i].name;
 						doc.fontSize(10).text(name);
 					}
 					doc.pipe(res);
@@ -44,5 +46,73 @@ module.exports = function(server) {
 		});
 	});
 
+
+  //GET with param id
+  //USE /script/{id}
+  router.get('/script/:id', function(req, res) {
+
+    //Works with the ressource
+    server.models.Ressource.findById(req.params.id, function(err, ressource){
+      if (err)
+        return console.log(err);
+      let content = 'Scripts for ' + ressource.name + ' \n',
+          template = ressource.script_template,
+          profilesTab = [],
+          ressourceId = ressource.id;
+
+      //Works with all the profiles
+      server.models.Profile.find({include: 'ressources'},function(err, profiles){
+        if (err)
+          return console.log(err);
+        //Keeps only the profiles associated with the ressource and put them in profilesTab
+        profiles.forEach(function(profile){
+          let found = false;
+          profile = profile.toJSON();
+          for (let i in profile.ressources) {
+            if (profile.ressources[i].id == ressourceId) {
+              found = true;
+              break;
+            }
+          }
+          if(found)
+            profilesTab.push(profile.acronyme);
+        });
+
+        //Works with all the clients that belong to the selected profiles
+        server.models.Client.find({where: {profileId:{ inq: profilesTab}}}, function(err, clients){
+          if (err)
+            return console.log(err);
+          //Genereates the script for each client and adds it to content
+          clients.forEach(function(client){
+            let line = template.replace('$idEtudiant', client.identifier)
+              .replace('$NomEtudiant', client.last_name)
+              .replace('$PrenomEtudiant', client.first_name)
+              .replace('$emailEtudiant', client.email)
+              .replace('$motDePasse', client.password);
+            content +=  line + '\n';
+          });
+          //Writes the content in a temporary file
+          tmp.file({ mode: 0o644, prefix: ressource.name + '-', postfix: ressource.export_format}, function _tempFileCreated(err, path, fd) {
+            fs.writeFile(path, content, function (err) {
+              if (err)
+                return console.log(err);
+              let now = new Date(),
+                  year   = now.getFullYear(),
+                  month    = now.getMonth() + 1,
+                  day    = now.getDate(),
+                  hour   = now.getHours(),
+                  minute  = now.getMinutes(),
+                  disposition = 'attachment; fileName=' + ressource.name
+                    + '_' + day  + '_' + month + '_' + year + '_' + hour + '_' + minute + ressource.export_format;
+              res.setHeader("Content-Disposition", disposition);
+              res.setHeader("Content-type", "application/octet-stream");
+              res.sendFile(path);
+            });
+          });
+        })
+      });
+    });
+  });
+
 	server.use(router);
-};
+}
