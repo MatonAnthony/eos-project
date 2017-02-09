@@ -10,26 +10,23 @@ const uuid = require('react-native-uuid');
 
 
 const URL = Api.getUrl();
-const RessourceSelector = React.createClass({
-    propTypes: {
-        onDeleteClick: React.PropTypes.func.isRequired,
-        uuid: React.PropTypes.string.isRequired
-    },
-
+const EditProfile = React.createClass({
     getInitialState() {
         return {
+            acronym: '',
+            fullname: '',
             ressources: [],
+            selected: []
         };
     },
 
-    componentDidMount(){
-        /* TODO: Fetch call to get Ressources
-           Blocked by bug #15 waiting for data
-        */
+    componentDidMount() {
+        /* TODO: Fetch call fill the profile */
         let options = {
             method: 'GET',
-            mode: 'cors',
+            mode: 'cors'
         };
+
         fetch(URL + '/Ressources', options).then((response) => {
             return response.json().then((json) => {
                 json.forEach((element) => {
@@ -40,76 +37,38 @@ const RessourceSelector = React.createClass({
                         }
                     );
                 });
+
+                fetch(URL + '/Profiles/' + this.props.params.profileId, options)
+                    .then((response) => {
+                        return response.json().then((json) => {
+                            let selected = this.state.selected;
+                            json.ressources.forEach((element) => {
+                                selected.push(element.id)
+                            });
+                            this.setState({
+                                acronym: json.acronyme,
+                                fullname: json.full_name,
+                                selected: selected
+                            });
+                        });
+                    });
             });
         });
-
     },
-
-    handleChange() {
-        return true;
-    },
-
-    remove() {
-        this.props.onDeleteClick(this.props.uuid);
-    },
-
-    render() {
-        return(
-            <div>
-              <Select
-                name="ressource-select"
-                options={this.state.ressources}
-                onChange={this.handleChange}
-                />
-              <Button
-                type="button"
-                bsStle="default"
-                onClick={this.remove}
-                className="pull-right"
-                ><i className="fa fa-minus"
-                    aria-hidden="true"></i>
-              </Button>
-            </div>
-        );
-    }
-});
-
-const EditProfile = React.createClass({
-    getInitialState() {
-        return {
-            acronym: '',
-            fullname: '',
-            ressources: [],
-            selectors: [
-               <RessourceSelector
-                onDeleteClick={this.deleteSelector}
-                uuid={uuid.v4()}
-               />
-            ]
-        };
-    },
-
-    deleteSelector(uuid) {
-        console.log(uuid);
-        let selectors = this.state.selectors;
+    handleSelectionChange(selectedRessources) {
+        let values = selectedRessources.map(element => element.value);
+        console.log(values);
         this.setState({
-            selectors: selectors.filter((element) => {
-                return element.props.uuid != uuid;
-            })
-        })
+            selected: selectedRessources
+        });
     },
 
-    addLine() {
-        let selectors = this.state.selectors;
-        this.setState({
-            selectors: selectors.concat(<RessourceSelector
-                                        onDeleteClick={this.deleteSelector}
-                                        uuid={uuid.v4()} />)
-        })
+    handleAcronymChange(event) {
+        this.setState({acronym: event.target.value});
     },
 
-    componentDidMount() {
-        /* TODO: Fetch call fill the profile */
+    handleNameChange(event) {
+        this.setState({fullname: event.target.value});
     },
 
     render() {
@@ -121,29 +80,31 @@ const EditProfile = React.createClass({
                       <ControlLabel>Acronyme :</ControlLabel>
                       <FormControl
                         type="text"
-                        placeholder="NDA"
+                        value={this.state.acronym}
+                        onChange={this.handleAcronymChange}
                         />
 
                       <ControlLabel>Nom : </ControlLabel>
                       <FormControl
                         type="text"
-                        placeholder="Non Directory Active"
+                        value={this.state.fullname}
+                        onChange={this.handleNameChange}
                         />
                     </FormGroup>
 
-                    <h2>Modifier les ressources de ce profil :
-                      <Button
-                        type="button"
-                        bsStle="default"
-                        onClick={this.addLine}
-                        className="pull-right"
-                        ><i className="fa fa-plus"
-                            onClick={this.addLine}
-                            aria-hidden="true"></i>
-                      </Button>
-                    </h2>
+                    <h2>Modifier les ressources de ce profil :</h2>
 
-                    {this.state.selectors}
+                      <Select
+                        name="selectors"
+                        multi
+                        value={this.state.selected}
+                        placeholder="Choissisez vos ressources"
+                        options={this.state.ressources}
+                        onChange={this.handleSelectionChange}
+
+                        />
+
+                      <br/>
 
                     <Button
                       type="button"
