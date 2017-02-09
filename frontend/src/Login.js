@@ -2,7 +2,9 @@ import React from 'react';
 import {Panel, FormGroup, ControlLabel} from 'react-bootstrap';
 import {FormControl, Button} from 'react-bootstrap';
 import './Login.css';
-import './Api';
+import Api from './Api';
+
+const URL = Api.getUrl();
 
 const Login = React.createClass({
     getInitialState() {
@@ -34,7 +36,24 @@ const Login = React.createClass({
     },
 
     submitForm() {
-        return true;
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                'username': this.state.pseudo,
+                'password': this.state.password
+            }),
+            headers: headers
+        };
+
+        fetch(URL + '/Users/login', options).then((response) => {
+            return response.json().then((json) => {
+                Api.authenticate(json.id);
+            });
+        });
     },
 
     render() {
