@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "scope": {
+    "include": "profile"
+  },
   "properties": {
     "identifier": {
       "type": "string",
@@ -28,9 +31,6 @@
     }
   },
   "validations": [],
-  "scope": {
-      "include": "profile"
-  },
   "relations": {
     "profile": {
       "type": "belongsTo",
@@ -38,6 +38,35 @@
       "foreignKey": ""
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY",
+      "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY",
+      "property": "deleteById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY",
+      "property": "updateAll"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY",
+      "property": "upsert"
+    }
+  ],
   "methods": {}
 }
