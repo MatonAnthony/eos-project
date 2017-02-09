@@ -7,15 +7,13 @@ import Identifier from './Identifier';
 import AddProfile from './AddProfile';
 import EditProfile from './EditProfile';
 import ListClient from './ListClient';
+import ListProfile from './ListProfile';
+import ViewClient from './ViewClient';
+import Menubar from './Menubar';
 import './index.css';
 
 ReactDOM.render((
-    <Router history={browserHistory}>
-      <Route path="/" component={Identifier} />
-        <Route path="client" component={ListClient} />
-        <Route path="profile/:profileId" component={EditProfile} />
-        <Route path="profile/add" component={AddProfile} />
-        <Route path="admin" component={Login} />
-    </Router>),
+    <App />
+  ),
   document.getElementById('root')
 );
