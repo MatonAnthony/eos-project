@@ -107,7 +107,7 @@ module.exports = function(server) {
             prefix: ressource.name + '-',
             postfix: ressource.export_format
           }, function _tempFileCreated(err, path, fd) {
-            fs.writeFile(path, content, function(err) {
+            fs.writeFile(path, content, 'latin1', function(err) {
               if (err)
                 return console.log(err);
               let now = new Date(),
@@ -158,6 +158,54 @@ module.exports = function(server) {
       });
     res.status(200);
     res.send('import ok');
+  });
+
+  //GET with param id
+  //USE /script/{idRessource}/client/{idClient}
+  router.get('/api/script/:idRessource/client/:idClient', function(req, res) {
+
+    //Works with the ressource
+    server.models.Ressource.findById(req.params.idRessource, function(err, ressource) {
+      if (err)
+        return console.log(err);
+      let content = 'Script for ' + ressource.name + ' \n',
+        template = ressource.script_template,
+        ressourceId = ressource.id;
+
+      server.models.Client.findById(req.params.idClient, function(err, client) {
+        if (err)
+          return console.log(err);
+
+        let line = template.replace('$idEtudiant', client.identifier)
+          .replace('$NomEtudiant', client.last_name)
+          .replace('$PrenomEtudiant', client.first_name)
+          .replace('$emailEtudiant', client.email)
+          .replace('$motDePasse', client.password);
+        content += line + '\n';
+
+        //Writes the content in a temporary file
+        tmp.file({
+          mode: 0o644,
+          prefix: ressource.name + '-',
+          postfix: ressource.export_format
+        }, function _tempFileCreated(err, path, fd) {
+          fs.writeFile(path, content, 'latin1', function(err) {
+            if (err)
+              return console.log(err);
+            let now = new Date(),
+              year = now.getFullYear(),
+              month = now.getMonth() + 1,
+              day = now.getDate(),
+              hour = now.getHours(),
+              minute = now.getMinutes(),
+              disposition = 'attachment; fileName=' + ressource.name + '_' + day + '_' + month + '_' + year + '_' + hour + '_' + minute + ressource.export_format;
+            res.setHeader("Content-Disposition", disposition);
+            res.setHeader("Content-type", "application/octet-stream");
+            res.sendFile(path);
+          });
+        });
+      });
+    });
   });
 
   server.use(router);
