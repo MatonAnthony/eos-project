@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Router, Route, Link, browserHistory, withRouter } from 'react-router'
+import React, {Component} from 'react';
+import {Router, Route, Link, browserHistory, withRouter} from 'react-router'
 import './App.css';
 import Login from './Login';
 import Identifier from './Identifier';
@@ -14,6 +14,7 @@ import EditClient from './EditClient';
 import AddClient from './AddClient';
 import EditRessource from './EditRessource';
 import ImportCSV from './ImportCSV';
+import AddRessources from './AddRessources';
 import './index.css';
 import Api from './Api';
 
@@ -26,19 +27,19 @@ const App = React.createClass({
     },
 
     requireAuth(nextState, replace) {
-        if(!Api.isAuthenticated()){
+        if (!Api.isAuthenticated()) {
             replace({
                 pathname: '/login',
-                state: { nextPathname: nextState.location.pathname }
+                state: {nextPathname: nextState.location.pathname}
             });
         }
     },
 
     requireIdentifier(nextState, replace) {
-        if(!Api.isStudentIdentified()){
+        if (!Api.isStudentIdentified()) {
             replace({
                 pathname: '/',
-                state: { nextPathname: nextState.location.pathname }
+                state: {nextPathname: nextState.location.pathname}
             });
         }
     },
@@ -58,6 +59,7 @@ const App = React.createClass({
                 <Route path="client/:clientId" component={ViewClient} onEnter={this.requireAuth}/>
                 <Route path="edit/client/:clientId" component={EditClient} onEnter={this.requireAuth}/>
                 <Route path="ressources" component={ListRessources} onEnter={this.requireAuth}/>
+                <Route path="ressources/add" component={AddRessources} onEnter={this.requireAuth}/>
                 <Route path="edit/ressources/:ressourceId" component={EditRessource}
                        onEnter={this.requireAuth} />
                 <Route path="add/client" component={AddClient} onEnter={this.requireAuth} />
