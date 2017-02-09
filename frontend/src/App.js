@@ -9,6 +9,7 @@ import ListClient from './ListClient';
 import ListProfile from './ListProfile';
 import ViewClient from './ViewClient';
 import Menubar from './Menubar';
+import EditClient from './EditClient';
 import './index.css';
 import Api from './Api';
 
@@ -50,7 +51,7 @@ const App = React.createClass({
                 <Route path="profile/:profileId" component={EditProfile} onEnter={this.requireAuth}/>
                 <Route path="admin" component={Login} />
                 <Route path="profile" component={ListProfile} onEnter={this.requireAuth}/>
-                <Route path="client/:clientId" component={ViewClient} onEnter={this.requireAuth}/>
+                <Route path="client/:clientId" component={EditClient} onEnter={this.requireAuth}/>
               </Route>
               <Route path="client/:clientId" component={ViewClient} />
             </Router>
