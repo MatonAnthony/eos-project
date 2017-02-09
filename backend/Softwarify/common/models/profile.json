@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "scope": {
+    "include": "ressources"
+  },
   "properties": {
     "acronyme": {
       "type": "string",
@@ -18,9 +21,6 @@
     }
   },
   "validations": [],
-  "scope": {
-      "include": "ressources"
-  },
   "relations": {
     "ressources": {
       "type": "hasAndBelongsToMany",
@@ -28,6 +28,13 @@
       "foreignKey": ""
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
   "methods": {}
 }
