@@ -14,7 +14,6 @@ module.exports = function(Client) {
               number: true
             });
             ctx.instance.password = password;
-            next();
           }
            next();
        }
