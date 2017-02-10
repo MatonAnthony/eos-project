@@ -23,7 +23,8 @@ const AddProfile = React.createClass({
             method: 'GET',
             mode: 'cors',
         };
-        fetch(URL + '/Ressources', options).then((response) => {
+        fetch(URL + '/Ressources?access_token=' + Api.isAuthenticated(), options)
+            .then((response) => {
             return response.json().then((json) => {
                 json.forEach((element) => {
                     this.state.ressources.push(
@@ -53,7 +54,7 @@ const AddProfile = React.createClass({
             headers: headers
         };
 
-        fetch(URL + '/Profiles', options).then((response) => {
+        fetch(URL + '/Profiles?access_token=' + Api.isAuthenticated(), options).then((response) => {
             if(response.ok) {
                 let options = {
                     method: 'PUT',
@@ -65,6 +66,8 @@ const AddProfile = React.createClass({
                           + this.state.acronym
                           + '/ressources/rel/'
                           + element.value
+                          + '?access_token='
+                          + Api.isAuthenticated()
                           , options)
                         .then((response) => {
                             if(response.ok) {

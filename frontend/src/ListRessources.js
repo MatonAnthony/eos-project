@@ -21,7 +21,7 @@ const ListRessources = React.createClass({
             mode: 'cors',
         };
 
-        fetch(URL + '/Ressources', options).then((response) => {
+        fetch(URL + '/Ressources?access_token=' + Api.isAuthenticated(), options).then((response) => {
             return response.json().then((json) => {
                 let ressources = [];
                 json.forEach((element) => {

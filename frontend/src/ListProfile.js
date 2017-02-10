@@ -15,12 +15,16 @@ const ListProfile = React.createClass({
     },
 
     componentDidMount(){
+        let headers = {
+            'Authorization': 'Bearer ' + Api.isAuthenticated()
+        }
+        console.log(headers);
         let options = {
             method: 'GET',
             mode: 'cors',
         };
 
-        fetch(URL + '/Profiles', options).then((response) => {
+        fetch(URL + '/Profiles?access_token=' + Api.isAuthenticated(), options).then((response) => {
             return response.json().then((json) => {
                 let profiles = [];
                 json.forEach((element) => {
@@ -66,10 +70,6 @@ const ListProfile = React.createClass({
             header={<Cell>Options</Cell>}
             fixed={true}
             cell={props => (<Cell {...props}>
-                  <LinkContainer
-                  to={{pathname: '/secure/profile/' + this.state.profiles[props.rowIndex].acronyme }}>
-                  <Button bsStyle="link"><i className="fa fa-eye" aria-hidden="true"></i></Button>
-                  </LinkContainer>
                    <LinkContainer
                             to={{pathname: 'secure/profile/'
                                  + this.state.profiles[props.rowIndex].acronyme}}>
