@@ -27,7 +27,7 @@ const EditProfile = React.createClass({
             mode: 'cors'
         };
 
-        fetch(URL + '/Ressources', options).then((response) => {
+        fetch(URL + '/Ressources?access_token=' + Api.isAuthenticated(), options).then((response) => {
             return response.json().then((json) => {
                 let ressources = this.state.ressources;
                 json.forEach((element) => {
@@ -43,7 +43,8 @@ const EditProfile = React.createClass({
                     ressources: ressources
                 })
 
-                fetch(URL + '/Profiles/' + this.props.params.profileId, options)
+                fetch(URL + '/Profiles/' + this.props.params.profileId
+                      + '?access_token=' + Api.isAuthenticated(), options)
                     .then((response) => {
                         return response.json().then((json) => {
                             let selected = this.state.selected;
@@ -74,14 +75,16 @@ const EditProfile = React.createClass({
             }),
             headers: headers
         };
-        fetch(URL + '/Profiles/' + this.state.acronym, options)
+        fetch(URL + '/Profiles/' + this.state.acronym + '?access_token='
+              + Api.isAuthenticated(), options)
             .then((response) => {
                 if(response.ok) {
                     let options = {
                         method: 'DELETE',
                         mode: 'cors',
                     };
-                    fetch(URL + '/Profiles/' + this.state.acronym + '/ressources', options)
+                    fetch(URL + '/Profiles/' + this.state.acronym + '/ressources?access_token='
+                          + Api.isAuthenticated(), options)
                         .then((response) => {
                             if(response.ok) {
                                 this.state.selected.forEach((element) => {
@@ -94,6 +97,8 @@ const EditProfile = React.createClass({
                                           + this.state.acronym
                                           + '/ressources/rel/'
                                           + element.value
+                                          + '?access_token='
+                                          + Api.isAuthenticated()
                                           , options).then((response) => {
                                              if(response.ok) {
                                                  /* TODO : Retour UI */

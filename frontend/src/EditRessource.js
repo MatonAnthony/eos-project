@@ -21,7 +21,8 @@ const EditRessource = React.createClass({
             mode: 'cors'
         };
 
-        fetch(URL + '/Ressources/' + this.props.params.ressourceId, options)
+        fetch(URL + '/Ressources/' + this.props.params.ressourceId
+              + '?access_token=' + Api.isAuthenticated(), options)
             .then((response) => {
                 return response.json().then((json) => {
                     this.setState({
@@ -50,7 +51,7 @@ const EditRessource = React.createClass({
             headers: headers
         };
 
-        fetch(URL + '/Ressources', options)
+        fetch(URL + '/Ressources?access_token=' + Api.isAuthenticated(), options)
             .then((response) => {
                 if(response.ok) {
                     console.log("Ressource edited");

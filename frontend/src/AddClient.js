@@ -27,7 +27,8 @@ const AddClient = React.createClass({
             method: 'GET',
             mode: 'cors',
         };
-        fetch(URL + '/Profiles', options).then((response) => {
+        fetch(URL + '/Profiles?access_token=' + Api.isAuthenticated(), options)
+            .then((response) => {
             return response.json().then((json) => {
                 let profileList = this.state.profileList;
                 json.forEach((element) => {
@@ -54,12 +55,12 @@ const AddClient = React.createClass({
                 'first_name': this.state.firstname,
                 'last_name': this.state.lastname,
                 'email': this.state.email,
-                'profileId': this.state.selectedProfile.value
+                'profileId': this.state.profileList[this.state.profileId]
             }),
             headers: headers
         };
 
-        fetch(URL + '/Clients', options).then((response) => {
+        fetch(URL + '/Clients?access_token=' + Api.isAuthenticated(), options).then((response) => {
             if(response.ok) {
                 console.log("Success");
             }
