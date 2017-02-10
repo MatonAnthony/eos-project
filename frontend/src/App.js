@@ -7,9 +7,13 @@ import AddProfile from './AddProfile';
 import EditProfile from './EditProfile';
 import ListClient from './ListClient';
 import ListProfile from './ListProfile';
+import ListRessources from './ListRessources';
 import ViewClient from './ViewClient';
 import Menubar from './Menubar';
 import EditClient from './EditClient';
+import AddClient from './AddClient';
+import EditRessource from './EditRessource';
+import ImportCSV from './ImportCSV';
 import './index.css';
 import Api from './Api';
 
@@ -53,6 +57,11 @@ const App = React.createClass({
                 <Route path="profile" component={ListProfile} onEnter={this.requireAuth}/>
                 <Route path="client/:clientId" component={ViewClient} onEnter={this.requireAuth}/>
                 <Route path="edit/client/:clientId" component={EditClient} onEnter={this.requireAuth}/>
+                <Route path="ressources" component={ListRessources} onEnter={this.requireAuth}/>
+                <Route path="edit/ressources/:ressourceId" component={EditRessource}
+                       onEnter={this.requireAuth} />
+                <Route path="add/client" component={AddClient} onEnter={this.requireAuth} />
+                <Route path="csv" component={ImportCSV} onEnter={this.requireAuth} />
               </Route>
               <Route path="client/:clientId" component={ViewClient} />
             </Router>

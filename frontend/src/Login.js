@@ -1,6 +1,7 @@
 import React from 'react';
 import {Panel, FormGroup, ControlLabel} from 'react-bootstrap';
 import {FormControl, Button} from 'react-bootstrap';
+import {withRouter} from 'react-router';
 import './Login.css';
 import Api from './Api';
 
@@ -52,6 +53,11 @@ const Login = React.createClass({
         fetch(URL + '/Users/login', options).then((response) => {
             return response.json().then((json) => {
                 Api.authenticate(json.id);
+                if(response.ok) {
+                    this.props.router.push({
+                        pathname: 'secure/client'
+                    })
+                }
             });
         });
     },
@@ -99,4 +105,4 @@ const Login = React.createClass({
     },
 })
 
-export default Login;
+export default withRouter(Login);

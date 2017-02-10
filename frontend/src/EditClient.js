@@ -45,7 +45,7 @@ const EditClient = React.createClass({
                     profileName: json.profile.full_name
                 });
 
-                fetch(URL + '/Profiles', options).then((response) => {
+                fetch(URL + '/Profiles?access_token=' + Api.isAuthenticated(), options).then((response) => {
                     return response.json().then((json) => {
                         let profileList = this.state.profileList;
                         json.forEach((element) => {
@@ -123,7 +123,8 @@ const EditClient = React.createClass({
                   <form>
                     <FormGroup>
                       <ControlLabel>Identifier :</ControlLabel>
-                      <FormControl
+                <FormControl
+                        disabled
                         type="text"
                         value={this.state.identifier}
                         onChange={this.handleIdentifierChange}
